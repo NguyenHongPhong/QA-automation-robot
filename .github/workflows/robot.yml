@@ -35,6 +35,9 @@ jobs:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
 
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
       - name: Run Robot Tests
         run: |
           robot --variablefile variables/env_dev.yaml tests/web
