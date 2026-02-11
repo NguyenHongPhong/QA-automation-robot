@@ -1,0 +1,39 @@
+name: Robot Framework CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.14.2
+
+      - name: Install dependencies
+        run: |
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+          pip install allure-robotframework
+          pip install pyyaml
+
+      - name: Create dev environment file
+        run: |
+          echo "WEBSITE_URL: https://automationexercise.com/" > variables/env_dev.yaml
+          echo "BROWSER: chrome" >> variables/env_dev.yaml
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Run Robot Tests
+        run: |
+          robot --variablefile variables/env_dev.yaml tests/web
