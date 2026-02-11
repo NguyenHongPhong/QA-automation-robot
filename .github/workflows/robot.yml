@@ -28,8 +28,15 @@ jobs:
 
       - name: Create dev environment file
         run: |
+          mkdir -p variables
           echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
           echo "BROWSER: ${{ secrets.BROWSER }}" >> variables/env_dev.yaml
+
+      - name: Debug env file
+        run: |
+          echo "----- ENV FILE -----"
+          cat variables/env_dev.yaml
+          echo "--------------------"
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
