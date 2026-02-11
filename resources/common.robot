@@ -2,12 +2,6 @@
 Open And Access Website
     [Arguments]     ${URL}      ${BROWSER}
 
-    ${options}=    Evaluate    __import__('selenium.webdriver').webdriver.ChromeOptions()
-    Call Method    ${options}    add_argument    --headless=new
-    Call Method    ${options}    add_argument    --no-sandbox
-    Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --incognito
-
-    Open Browser    ${URL}      ${BROWSER}      options=${options}
+    Open Browser    ${URL}      ${BROWSER}      options=add_argument(--headless=new);add_argument(--no-sandbox);add_argument(--disable-dev-shm-usage);add_argument(--incognito)
     Maximize Browser Window
 
