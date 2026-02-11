@@ -28,8 +28,8 @@ jobs:
 
       - name: Create dev environment file
         run: |
-          echo "WEBSITE_URL: https://automationexercise.com/" > variables/env_dev.yaml
-          echo "BROWSER: chrome" >> variables/env_dev.yaml
+          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
+          echo "BROWSER: ${{ secrets.BROWSER }}" >> variables/env_dev.yaml
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1

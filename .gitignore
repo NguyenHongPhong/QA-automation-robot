@@ -1,7 +1,7 @@
 # Ignore all real env files
 variables/env_dev.yaml
 variables/env_pro.yaml
-variables/staging.yaml
+variables/env_staging.yaml
 
 # But keep example files
 !variables/*.env_example.yaml
