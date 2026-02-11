@@ -1,0 +1,15 @@
+
+WEBSITE_URL: https://automationexercise.com/
+BROWSER: chrome
+
+VALID_USERNAME: phong
+VALID_EMAIL: learningemail10000dollars@gmail.com
+
+HOMEPAGE_REGISTER_AND_LOGIN_LINK: //*[@id="header"]/div/div/div/div[2]/div/ul/li[4]/a
+
+REGISTER_USERNAME_INPUT: //*[@id="form"]/div/div/div[3]/div/form/input[2]
+REGISTER_PASSWORD_INPUT: //*[@id="form"]/div/div/div[3]/div/form/input[3]
+REGISTER_SIGN_UP_BUTTON: //*[@id="form"]/div/div/div[3]/div/form/button
+
+REGISTER_SUCCESS_REDIRECT_LINK: https://automationexercise.com/signup
+
