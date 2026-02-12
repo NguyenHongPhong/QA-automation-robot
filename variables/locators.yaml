@@ -1,7 +1,7 @@
 HOMEPAGE_REGISTER_AND_LOGIN_LINK: //*[@id="header"]/div/div/div/div[2]/div/ul/li[4]/a
 
-REGISTER_USERNAME_INPUT: //*[@id="form"]/div/div/div[3]/div/form/input[2]
-REGISTER_PASSWORD_INPUT: //*[@id="form"]/div/div/div[3]/div/form/input[3]
-REGISTER_SIGN_UP_BUTTON: //*[@id="form"]/div/div/div[3]/div/form/button
+REGISTER_USERNAME_INPUT: //form[@action="/signup"]//input[@name="name"]
+REGISTER_EMAIL_INPUT: //form[@action="/signup"]//input[@name="email"]
+REGISTER_SIGN_UP_BUTTON: //form[@action="/signup"]//button
 
 
