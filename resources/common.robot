@@ -2,6 +2,7 @@
 Open And Access Website
     [Arguments]     ${URL}      ${BROWSER}
 
-    Open Browser    ${URL}      ${BROWSER}      
+    Open Browser    ${URL}      ${BROWSER}
+    Wait Until Page Contains Element        //body      10s      
     Maximize Browser Window
 
