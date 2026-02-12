@@ -8,7 +8,7 @@ Resource    ../../resources/register.robot
 *** Test Cases ***
 Register With Valid Credentials Should Navigate Sign Up Page
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
-    Register New User       ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}      ${REGISTER_PASSWORD_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
+    Register New User       ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}      ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
     Wait Until Page Contains Element        //body      5s
     ${current_url}=     Get Location
     Should Be Equal     ${current_url}      ${REGISTER_SUCCESS_REDIRECT_LINK}
