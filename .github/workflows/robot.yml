@@ -32,7 +32,9 @@ jobs:
           echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
           echo "BROWSER: ${{ secrets.BROWSER }}" >> variables/env_dev.yaml
           echo "REGISTER_SUCCESS_REDIRECT_LINK: ${{ secrets.REGISTER_SUCCESS_REDIRECT_LINK }}" >> variables/env_dev.yaml
-
+          echo "REGISTER_USERNAME_INPUT: ${{ secrets.REGISTER_USERNAME_INPUT }}" >> variables/env_dev.yaml
+          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
+          echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
       - name: Debug env file
         run: |
           echo "----- ENV FILE -----"
