@@ -2,6 +2,7 @@
 Library     SeleniumLibrary
 Resource    ../../resources/common.robot
 Variables    ../../variables/env_dev.yaml
+Variables    ../../variables/locators.yaml
 Resource    ../../resources/register.robot
 
 *** Test Cases ***
