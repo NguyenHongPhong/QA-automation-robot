@@ -17,4 +17,4 @@ Get Input Validation Message
     [Arguments]     ${LOCATOR_NAME}
 
     ${msg}=     Get Element Attribute       xpath=${LOCATOR_NAME}      validationMessage
-    [Return]        ${msg}
+    RETURN       ${msg}
