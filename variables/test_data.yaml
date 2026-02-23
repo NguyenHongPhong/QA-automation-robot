@@ -1,2 +1,5 @@
 EMPTY_USERNAME: ""
 EMPTY_NAME_VALIDATION_MESSAGE: Please fill out this field.
+
+EMPTY_EMAIL: ""
+EMPTY_EMAIL_VALIDATION_MESSAGE: Please fill out this field.

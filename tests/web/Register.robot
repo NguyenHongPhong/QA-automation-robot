@@ -19,3 +19,9 @@ Register With Empty Name Field Should Show Validation Error Message
     Register New User With Empty Name      ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}     ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
     ${validation_message}=    Get Input Validation Message        ${REGISTER_USERNAME_INPUT}
     Should Be Equal     ${validation_message}       ${EMPTY_NAME_VALIDATION_MESSAGE}
+
+Register With Empty Email Field Should Show Validation Error Message
+    Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
+    Register New User With Empty Email      ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}     ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
+    ${validation_message}=    Get Input Validation Message        ${REGISTER_EMAIL_INPUT}
+    Should Be Equal     ${validation_message}       ${EMPTY_EMAIL_VALIDATION_MESSAGE}
