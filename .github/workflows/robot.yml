@@ -34,6 +34,12 @@ jobs:
           echo "REGISTER_SUCCESS_REDIRECT_LINK: ${{ secrets.REGISTER_SUCCESS_REDIRECT_LINK }}" >> variables/env_dev.yaml
           echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
           echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL: ${{ secrets.INVALID_EMAIL }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_ERROR_MESSAGE }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_V2: ${{ secrets.INVALID_EMAIL_V2 }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_V2_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_V2_ERROR_MESSAGE }}" >> variables/env_dev.yaml
+          echo "REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}" >> variables/env_dev.yaml
+          
       - name: Debug env file
         run: |
           echo "----- ENV FILE -----"
