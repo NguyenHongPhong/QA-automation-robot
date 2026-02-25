@@ -3,3 +3,5 @@ EMPTY_NAME_VALIDATION_MESSAGE: Please fill out this field.
 
 EMPTY_EMAIL: ""
 EMPTY_EMAIL_VALIDATION_MESSAGE: Please fill out this field.
+
+REGISTERED_EMAIL_ERROR_MESSAGE: Email Address already exist!
