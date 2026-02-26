@@ -50,7 +50,7 @@ jobs:
 
       - name: Run Selenium Tests
         run: |
-          robot --variablefile variables/env_dev.yaml tests/web/Register.robot
+          robot --variablefile variables/env_dev.yaml tests/web/selenium
 
 
 
@@ -88,4 +88,4 @@ jobs:
           echo "INVALID_EMAIL_V3: ${{ secrets.INVALID_EMAIL_V3 }}" >> variables/env_dev.yaml
       - name: Run Playwright Tests
         run: |
-          robot --variablefile variables/env_dev.yaml tests/web/Register.PW.robot
+          robot --variablefile variables/env_dev.yaml tests/web/playwright
