@@ -1,3 +1,6 @@
+*** Settings ***
+Library     Browser
+
 *** Keywords ***
 Register New User
     [Arguments]     

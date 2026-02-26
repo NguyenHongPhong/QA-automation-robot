@@ -1,5 +1,5 @@
 *** Settings ***
-Library     Browser
+Library     SeleniumLibrary
 *** Keywords ***
 Open And Access Website
     [Arguments]     ${URL}      ${BROWSER}
