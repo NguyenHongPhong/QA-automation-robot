@@ -8,7 +8,7 @@ Resource    ../../resources/register.pw.robot
 
 *** Test Cases ***
 Register With Invalid Email V3 Should Show Validation Error Message
-    New Browser     ${BROWSER_FOR_PLAYWRIGHT}      headless=False
+    New Browser     ${BROWSER_FOR_PLAYWRIGHT}      ${HEADLESS}
     New Context
     New Page        ${WEBSITE_URL}
     Wait For Elements State      body    visible     timeout=5s

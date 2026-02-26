@@ -83,7 +83,7 @@ jobs:
           mkdir -p variables
           echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
           echo "BROWSER_FOR_PLAYWRIGHT: ${{ secrets.BROWSER_FOR_PLAYWRIGHT }}" >> variables/env_dev.yaml
-
+          echo "HEADLESS: ${{ secrets.HEADLESS }}" >> variables/env_dev.yaml
       - name: Run Playwright Tests
         run: |
           robot --variablefile variables/env_dev.yaml tests/web/Register.PW.robot
