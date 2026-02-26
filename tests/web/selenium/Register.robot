@@ -1,10 +1,10 @@
 *** Settings ***
 Library     SeleniumLibrary
-Resource    ../../resources/common.robot
-Variables    ../../variables/env_dev.yaml
-Variables    ../../variables/locators.yaml
-Variables    ../../variables/test_data.yaml
-Resource    ../../resources/register.robot
+Resource    ../../../resources/common.robot
+Variables   ../../../variables/env_dev.yaml
+Variables   ../../../variables/locators.yaml
+Variables   ../../../variables/test_data.yaml
+Resource    ../../../resources/register.robot
 
 *** Test Cases ***
 Register With Valid Credentials Should Navigate Sign Up Page

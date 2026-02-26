@@ -1,9 +1,9 @@
 *** Settings ***
 Library     Browser
-Variables    ../../variables/env_dev.yaml
-Variables    ../../variables/locators.yaml
-Variables    ../../variables/test_data.yaml
-Resource    ../../resources/register.pw.robot
+Variables   ../../../variables/env_dev.yaml
+Variables   ../../../variables/locators.yaml
+Variables   ../../../variables/test_data.yaml
+Resource    ../../../resources/register.pw.robot
 
 
 *** Test Cases ***
