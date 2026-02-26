@@ -7,7 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+
+  selenium-tests:
+    name: Selenium Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +21,7 @@ jobs:
         with:
           python-version: 3.14.2
 
-      - name: Install dependencies
+      - name: Install Selenium Dependencies
         run: |
           pip install robotframework
           pip install robotframework-seleniumlibrary
@@ -39,12 +41,6 @@ jobs:
           echo "INVALID_EMAIL_V2: ${{ secrets.INVALID_EMAIL_V2 }}" >> variables/env_dev.yaml
           echo "INVALID_EMAIL_V2_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_V2_ERROR_MESSAGE }}" >> variables/env_dev.yaml
           echo "REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}" >> variables/env_dev.yaml
-          
-      - name: Debug env file
-        run: |
-          echo "----- ENV FILE -----"
-          cat variables/env_dev.yaml
-          echo "--------------------"
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
@@ -52,6 +48,42 @@ jobs:
       - name: Install ChromeDriver
         uses: nanasess/setup-chromedriver@v2
 
-      - name: Run Robot Tests
+      - name: Run Selenium Tests
         run: |
-          robot --variablefile variables/env_dev.yaml tests/web
+          robot --variablefile variables/env_dev.yaml tests/selenium
+
+
+
+  playwright-tests:
+    name: Playwright Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.14.2
+
+      - name: Install Playwright Dependencies
+        run: |
+          pip install robotframework
+          pip install robotframework-browser
+          pip install allure-robotframework
+          pip install pyyaml
+
+      - name: Install Playwright Browsers
+        run: |
+          rfbrowser init
+
+      - name: Create dev environment file
+        run: |
+          mkdir -p variables
+          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
+          echo "BROWSER_FOR_PLAYWRIGHT: ${{ secrets.BROWSER_FOR_PLAYWRIGHT }}" >> variables/env_dev.yaml
+
+      - name: Run Playwright Tests
+        run: |
+          robot --variablefile variables/env_dev.yaml tests/playwright

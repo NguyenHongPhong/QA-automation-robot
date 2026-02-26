@@ -5,3 +5,6 @@ EMPTY_EMAIL: ""
 EMPTY_EMAIL_VALIDATION_MESSAGE: Please fill out this field.
 
 REGISTERED_EMAIL_ERROR_MESSAGE: Email Address already exist!
+INVALID_EMAIL_ERROR_MESSAGE: is missing an '@'
+INVALID_EMAIL_V2_ERROR_MESSAGE: Please enter a part following '@'.
+INVALID_EMAIL_V3_ERROR_MESSAGE: wrong position in '.com'

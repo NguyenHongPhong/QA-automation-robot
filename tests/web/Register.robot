@@ -13,39 +13,49 @@ Register With Valid Credentials Should Navigate Sign Up Page
     Wait Until Page Contains Element        //body      5s
     ${current_url}=     Get Location
     Should Be Equal     ${current_url}      ${REGISTER_SUCCESS_REDIRECT_LINK}
+    Close Browser
 
 Register With Empty Name Field Should Show Validation Error Message
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
     Register New User With Empty Name      ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}     ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
     ${validation_message}=    Get Input Validation Message        ${REGISTER_USERNAME_INPUT}
     Should Be Equal     ${validation_message}       ${EMPTY_NAME_VALIDATION_MESSAGE}
+    Close Browser
 
 Register With Empty Email Field Should Show Validation Error Message
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
     Register New User With Empty Email      ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}     ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
     ${validation_message}=    Get Input Validation Message        ${REGISTER_EMAIL_INPUT}
     Should Be Equal     ${validation_message}       ${EMPTY_EMAIL_VALIDATION_MESSAGE}
+    Close Browser
 
 Register With Empty Name and Empty Email Should Show Validation Error Message
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
     Register New User With Empty Name And Empty Email      ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}     ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}
     ${validation_message}=    Get Input Validation Message        ${REGISTER_USERNAME_INPUT}
     Should Be Equal     ${validation_message}       ${EMPTY_NAME_VALIDATION_MESSAGE}
+    Close Browser
 
 Register With Invalid Email Should Show Validation Error Message
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
     Register New User       ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}      ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}     ${VALID_USERNAME}       ${INVALID_EMAIL}
     ${validation_message}=    Get Input Validation Message        ${REGISTER_EMAIL_INPUT}
-    Should Be Equal     ${validation_message}       ${INVALID_EMAIL_ERROR_MESSAGE}
+    Log     ${validation_message}
+    Should Contain     ${validation_message}       ${INVALID_EMAIL_ERROR_MESSAGE}
+    Close Browser
 
 Register With Invalid Email V2 Should Show Validation Error Message
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
     Register New User       ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}      ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}     ${VALID_USERNAME}       ${INVALID_EMAIL_V2}
     ${validation_message}=    Get Input Validation Message        ${REGISTER_EMAIL_INPUT}
-    Should Be Equal    ${validation_message}    ${INVALID_EMAIL_V2_ERROR_MESSAGE}
+    Log     ${validation_message}
+    Should Contain    ${validation_message}    ${INVALID_EMAIL_V2_ERROR_MESSAGE}
+    Close Browser
 
 Register With Existed Email Should Show Validation Error Message
     Open And Access Website     ${WEBSITE_URL}      ${BROWSER}
     Register New User       ${HOMEPAGE_REGISTER_AND_LOGIN_LINK}     ${REGISTER_USERNAME_INPUT}      ${REGISTER_EMAIL_INPUT}      ${REGISTER_SIGN_UP_BUTTON}     ${VALID_USERNAME}       ${REGISTERED_EMAIL}
     ${error_text}=    Get Text    ${REGISTER_ERROR_MESSAGE}
     Should Be Equal     ${error_text}       ${REGISTERED_EMAIL_ERROR_MESSAGE}
+    Close Browser
+

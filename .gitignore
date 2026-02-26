@@ -2,6 +2,9 @@
 variables/env_dev.yaml
 variables/env_pro.yaml
 variables/env_staging.yaml
+variables/env_staging.yaml
+variables/test_data_dev.yaml
+
 
 # But keep example files
 !variables/*.env_example.yaml

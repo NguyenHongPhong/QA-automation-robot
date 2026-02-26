@@ -33,3 +33,4 @@ Get Input Validation Message
 
     ${msg}=     Get Element Attribute       xpath=${LOCATOR_NAME}      validationMessage
     RETURN       ${msg}
+

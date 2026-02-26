@@ -1,3 +1,5 @@
+*** Settings ***
+Library     Browser
 *** Keywords ***
 Open And Access Website
     [Arguments]     ${URL}      ${BROWSER}
