@@ -85,6 +85,7 @@ jobs:
           echo "BROWSER_FOR_PLAYWRIGHT: ${{ secrets.BROWSER_FOR_PLAYWRIGHT }}" >> variables/env_dev.yaml
           echo "HEADLESS: ${{ secrets.HEADLESS }}" >> variables/env_dev.yaml
           echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_V3: ${{ secrets.INVALID_EMAIL_V3 }}" >> variables/env_dev.yaml
       - name: Run Playwright Tests
         run: |
           robot --variablefile variables/env_dev.yaml tests/web/Register.PW.robot
