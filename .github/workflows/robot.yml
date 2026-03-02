@@ -86,6 +86,7 @@ jobs:
           echo "HEADLESS: ${{ secrets.HEADLESS }}" >> variables/env_dev.yaml
           echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
           echo "INVALID_EMAIL_V3: ${{ secrets.INVALID_EMAIL_V3 }}" >> variables/env_dev.yaml
+          echo "REGISTER_PASSWORD: ${{ secrets.REGISTER_PASSWORD }}" >> variables/env_dev.yaml
       - name: Run Playwright Tests
         run: |
           robot --variablefile variables/env_dev.yaml tests/web/playwright

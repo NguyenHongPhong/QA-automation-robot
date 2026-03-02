@@ -4,4 +4,9 @@ REGISTER_USERNAME_INPUT: //form[@action="/signup"]//input[@name="name"]
 REGISTER_EMAIL_INPUT: //form[@action="/signup"]//input[@name="email"]
 REGISTER_SIGN_UP_BUTTON: //form[@action="/signup"]//button
 REGISTER_ERROR_MESSAGE: //form[@action="/signup"]//p
+REGISTER_AUTHOR_TEXT: //div[@class="shop-menu pull-right"]//b[text()="phong"]
+ACCOUNT_CREATED_TITLE_HEADING: h2[data-qa="account-created"]
+ACCOUNT_CREATED_CONTINUE_LINK: css=[data-qa="continue-button"]
+
+
 

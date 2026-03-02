@@ -14,7 +14,7 @@ robot ^
   --variablefile variables\env_%ENV%.yaml ^
   --outputdir reports\web\robot ^
   --listener allure_robotframework:reports\web\allure-results ^
-  tests\web\Register.PW.robot
+  tests\web\playwright\Register.robot
 
 echo Opening Allure report...
 allure serve reports\web\allure-results
