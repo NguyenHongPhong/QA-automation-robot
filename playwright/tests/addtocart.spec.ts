@@ -31,8 +31,9 @@ test('Add To Cart With 3 Products In Women Category Should Has Three Products In
     await addToCartPage.selectItem(ADD_TO_CART_SLEEVES_DRESS_ITEM);
   });
 
+  await page.locator('#cartModal').waitFor({ state: 'visible' });
+
   await test.step('Continue Shopping', async () => {
-    await page.locator('#cartModal').waitFor({ state: 'visible' });
     await page.getByRole('button', { name: ADD_TO_CART_CONTINUE_SHOPPING_BUTTON }).click();
   });
 
@@ -48,8 +49,9 @@ test('Add To Cart With 3 Products In Women Category Should Has Three Products In
     await addToCartPage.selectItem(ADD_TO_CART_SUMMER_WHITE_TOP_ITEM);
   });
 
+  await page.locator('#cartModal').waitFor({ state: 'visible' });
+
   await test.step('Continue Shopping second time', async () => {
-    await page.locator('#cartModal').waitFor({ state: 'visible' });
     await page.getByRole('button', { name: ADD_TO_CART_CONTINUE_SHOPPING_BUTTON }).click();
   });
 
