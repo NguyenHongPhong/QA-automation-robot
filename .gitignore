@@ -15,3 +15,5 @@ reports/
 #Ignore python test files
 libraries/BasicInteraction.py
 libraries/__pycache__
+
+node_modules/

@@ -1,0 +1,19 @@
+import { type Page } from "@playwright/test";
+import { WEBSITE_URL } from "../utils/evnVariables.js";
+export class LoginPage {
+    constructor(private page: Page) { }
+
+    async goto() {
+        await this.page.goto('/login')
+    }
+
+    async login(locatorUser: string, locatorPassword: string, locatorLoginButton: string, username: string, password: string) {
+        await this.page.fill(locatorUser, username);
+        await this.page.fill(locatorPassword, password);
+
+        await Promise.all([
+            this.page.waitForURL(WEBSITE_URL),
+            await this.page.click(locatorLoginButton)
+        ]);
+    }
+}
