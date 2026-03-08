@@ -4,6 +4,8 @@ export class LoginPage {
     constructor(private page: Page) { }
 
     async goto() {
+        console.log("process.env.WEBSITE_URL:", process.env.WEBSITE_URL);
+
         await this.page.goto(`${WEBSITE_URL}/login`);
     }
 
