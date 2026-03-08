@@ -10,14 +10,14 @@ export class AddToCartPage {
         const category = this.page.locator(locatorCategory);
         await category.scrollIntoViewIfNeeded();
         await Promise.all([
-            category.click()
+            category.click({ force: true }),
         ]);
     }
 
     async selectItem(locatorItem: string) {
         const product = this.page.locator(locatorItem).first();
         await product.scrollIntoViewIfNeeded();
-        await product.click();
+        await product.click({ force: true });
 
     }
 
