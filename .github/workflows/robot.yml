@@ -118,6 +118,8 @@ jobs:
       - name: Create environment file
         run: |
           mkdir -p variables
+          ls -la variables
+          cat variables/env_dev.yaml
           echo "WEBSITE_URL=${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
           echo "VALID_EMAIL=${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
           echo "VALID_PASSWORD=${{ secrets.VALID_PASSWORD }}" >> variables/env_dev.yaml
