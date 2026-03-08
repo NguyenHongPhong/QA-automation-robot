@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export function loadYaml(fileName: string) {
-    const filePath = path.join(__dirname, `../../variables/${fileName}.yaml`);
+    const filePath = path.resolve(process.cwd(), `variables/${fileName}.yaml`);
     const file = fs.readFileSync(filePath, 'utf8');
     return YAML.parse(file);
 }
