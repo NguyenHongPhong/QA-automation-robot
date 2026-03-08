@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test } from '../fixtures/baseTest.js';
+import { expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage.js';
 import {
   LOGIN_EMAIL_INPUT, LOGIN_PASSWORD_INPUT, LOGIN_BUTTON, HOMEPAGE_WOMEN_CATEGORY_LINK,
