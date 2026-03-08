@@ -4,7 +4,7 @@ import { WEBSITE_URL } from "./playwright/utils/evnVariables.js";
 export default defineConfig({
     use: {
         baseURL: WEBSITE_URL,
-        headless: false,
+        headless: true,
         viewport: { width: 1280, height: 720 },
         ignoreHTTPSErrors: true,
         video: 'off',
