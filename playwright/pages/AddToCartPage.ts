@@ -17,6 +17,7 @@ export class AddToCartPage {
     async selectItem(locatorItem: string) {
         const product = this.page.locator(locatorItem).first();
         await product.scrollIntoViewIfNeeded();
+        await product.hover();
         await product.click({ force: true });
 
     }
