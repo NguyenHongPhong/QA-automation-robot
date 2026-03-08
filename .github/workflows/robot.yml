@@ -1,4 +1,4 @@
-name: Robot Framework CI
+name: Automation Framework CI
 
 on:
   push:
@@ -95,34 +95,33 @@ jobs:
 
 
   playwright-ts-tests:
-  name: Playwright Tests (TypeScript)
-  runs-on: ubuntu-latest
+    name: Playwright Tests (TypeScript)
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.13
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13
 
-    - name: Install dependencies
-      run: |
-        npm install
+      - name: Install dependencies
+        run: |
+          npm install
 
-    - name: Install Playwright Browsers
-      run: |
-        npx playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: |
+          npx playwright install --with-deps
 
-    - name: Create environment file
-      run: |
-        mkdir -p variables
-        echo "WEBSITE_URL=${{ secrets.WEBSITE_URL }}" > variables/env_dev.env
-        echo "VALID_USERNAME=${{ secrets.VALID_USERNAME }}" >> variables/env_dev.env
-        echo "VALID_EMAIL=${{ secrets.VALID_EMAIL }}" >> variables/env_dev.env
-        echo "REGISTER_PASSWORD=${{ secrets.REGISTER_PASSWORD }}" >> variables/env_dev.env
+      - name: Create environment file
+        run: |
+          mkdir -p variables
+          echo "WEBSITE_URL=${{ secrets.WEBSITE_URL }}" > variables/env_dev.env
+          echo "VALID_EMAIL=${{ secrets.VALID_EMAIL }}" >> variables/env_dev.env
+          echo "VALID_PASSWORD=${{ secrets.VALID_PASSWORD }}" >> variables/env_dev.env
 
-    - name: Run Playwright TypeScript Tests
-      run: |
-        npx playwright test
+      - name: Run Playwright TypeScript Tests
+        run: |
+          npx playwright test
