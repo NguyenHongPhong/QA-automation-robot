@@ -4,7 +4,7 @@ export class LoginPage {
     constructor(private page: Page) { }
 
     async goto() {
-        await this.page.goto('/login')
+        await this.page.goto(`${WEBSITE_URL}/login`);
     }
 
     async login(locatorUser: string, locatorPassword: string, locatorLoginButton: string, username: string, password: string) {
