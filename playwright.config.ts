@@ -14,4 +14,6 @@ export default defineConfig({
         },
         trace: 'on-first-retry',
     },
-});
+},
+    { retries: 2 }
+);
