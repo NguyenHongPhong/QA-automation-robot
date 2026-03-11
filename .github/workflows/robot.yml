@@ -2,6 +2,7 @@ name: Automation Framework CI
 
 on:
   workflow_dispatch:
+  repository_dispatch:
   push:
     branches: [ main ]
   pull_request:
