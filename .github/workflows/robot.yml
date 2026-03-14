@@ -16,7 +16,7 @@ on:
 jobs:
 
   selenium-tests:
-    if: github.event.issue.labels.*.name contains 'deploy'
+    if: ${{ github.event.inputs.run_deploy == 'true' }}
     name: Selenium Tests
     runs-on: ubuntu-latest
 
@@ -63,7 +63,7 @@ jobs:
 
 
   playwright-tests:
-    if: github.event.issue.labels.*.name contains 'deploy'
+    if: ${{ github.event.inputs.run_deploy == 'true' }}
     name: Playwright Tests
     runs-on: ubuntu-latest
 
@@ -104,7 +104,7 @@ jobs:
 
 
   playwright-ts-tests:
-    if: github.event.issue.labels.*.name contains 'deploy'
+    if: ${{ github.event.inputs.run_deploy == 'true' }}
     name: Playwright Tests (TypeScript)
     runs-on: ubuntu-latest
 
