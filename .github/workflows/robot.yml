@@ -2,13 +2,15 @@ name: Automation Framework CI
 
 on:
   workflow_dispatch:
-  repository_dispatch:
+    inputs:
+      run_deploy:
+        description: "CICD job"
+        required: true
+        default: "false"
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  issues:
-    types: [opened, labeled]
 
 
 jobs:
