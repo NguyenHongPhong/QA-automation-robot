@@ -7,10 +7,13 @@ on:
         description: "CICD job"
         required: true
         default: "false"
+
   push:
     branches: [ main ]
+    
   pull_request:
     branches: [ main ]
+
   permissions:
     contents: write
 
