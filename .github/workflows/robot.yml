@@ -58,7 +58,16 @@ jobs:
 
       - name: Run Selenium Tests
         run: |
-          robot --variablefile variables/env_dev.yaml tests/web/selenium
+          robot \
+          --listener allure_robotframework \
+          --outputdir output \
+          tests/web/selenium
+      
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-allure
+          path: output/allure-results
 
 
 
@@ -99,7 +108,16 @@ jobs:
           echo "REGISTER_PASSWORD: ${{ secrets.REGISTER_PASSWORD }}" >> variables/env_dev.yaml
       - name: Run Playwright Tests
         run: |
-          robot --variablefile variables/env_dev.yaml tests/web/playwright
+          robot \
+          --listener allure_robotframework \
+          --outputdir output \
+          tests/web/playwright
+      
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-allure
+          path: output/allure-results
 
 
 
@@ -136,4 +154,90 @@ jobs:
 
       - name: Run Playwright TypeScript Tests
         run: |
-          npx playwright test playwright/tests
+          npx playwright test \
+          --reporter=line,allure-playwright
+
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-ts-allure
+          path: allure-results
+
+# -------------------------------
+# Merge + Generate Allure
+# -------------------------------
+
+  generate-allure-report:
+
+    needs:
+      - selenium-tests
+      - playwright-tests
+      - playwright-ts-tests
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+
+      - name: Download Selenium Results
+        uses: actions/download-artifact@v4
+        with:
+          name: selenium-allure
+          path: allure-results/selenium
+
+
+      - name: Download Playwright Results
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-allure
+          path: allure-results/playwright
+
+
+      - name: Download Playwright TS Results
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-ts-allure
+          path: allure-results/playwright-ts
+
+
+      - name: Merge Results
+        run: |
+          mkdir merged-results
+          cp -r allure-results/*/* merged-results || true
+
+
+      - name: Install Allure CLI
+        run: |
+          npm install -g allure-commandline --save-dev
+
+
+      - name: Generate Report
+        run: |
+          allure generate merged-results -o allure-report --clean
+
+
+      - name: Deploy to GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+
+          git config --global user.name "automation-bot"
+          git config --global user.email "automation@bot.com"
+
+          git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages
+
+          cd gh-pages
+
+          git checkout gh-pages || git checkout -b gh-pages
+
+          rm -rf *
+
+          cp -r ../allure-report/* .
+
+          git add .
+
+          git commit -m "Update Allure report" || echo "No changes"
+
+          git push
