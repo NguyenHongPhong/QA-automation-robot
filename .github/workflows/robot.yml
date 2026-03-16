@@ -1,6 +1,8 @@
 name: Automation Framework CI
 
 on:
+  permissions:
+  contents: write
   workflow_dispatch:
     inputs:
       run_deploy:
@@ -204,10 +206,14 @@ jobs:
 
       - name: Merge Results
         run: |
-          mkdir merged-results
-          cp -r allure-results/*/* merged-results || true
+          mkdir -p merged-results
+          cp -r allure-results/*/* merged-results/ || true
 
-
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          
       - name: Install Allure CLI
         run: |
           npm install -g allure-commandline --save-dev
@@ -240,4 +246,4 @@ jobs:
 
           git commit -m "Update Allure report" || echo "No changes"
 
-          git push
+          git push origin gh-pages
