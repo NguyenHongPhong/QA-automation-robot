@@ -22,173 +22,108 @@ jobs:
   selenium-tests:
     if: ${{ github.event.inputs.run_deploy == 'true' }}
     continue-on-error: true
-    name: Selenium Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: 3.14.2
+          python-version: 3.11
 
-      - name: Install Selenium Dependencies
+      - name: Install deps
         run: |
           pip install robotframework
           pip install robotframework-seleniumlibrary
           pip install allure-robotframework
           pip install pyyaml
 
-      - name: Create dev environment file
+      - name: Run Selenium
         run: |
-          mkdir -p variables
-          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
-          echo "BROWSER: ${{ secrets.BROWSER }}" >> variables/env_dev.yaml
-          echo "REGISTER_SUCCESS_REDIRECT_LINK: ${{ secrets.REGISTER_SUCCESS_REDIRECT_LINK }}" >> variables/env_dev.yaml
-          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
-          echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
-          echo "INVALID_EMAIL: ${{ secrets.INVALID_EMAIL }}" >> variables/env_dev.yaml
-          echo "INVALID_EMAIL_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_ERROR_MESSAGE }}" >> variables/env_dev.yaml
-          echo "INVALID_EMAIL_V2: ${{ secrets.INVALID_EMAIL_V2 }}" >> variables/env_dev.yaml
-          echo "INVALID_EMAIL_V2_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_V2_ERROR_MESSAGE }}" >> variables/env_dev.yaml
-          echo "REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}" >> variables/env_dev.yaml
-
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@v1
-
-      - name: Install ChromeDriver
-        uses: nanasess/setup-chromedriver@v2
-
-      - name: Run Selenium Tests
-        run: |
-          robot \
-          --listener allure_robotframework \
+          robot --listener allure_robotframework \
           --outputdir output \
           tests/web/selenium
-      
-      - name: Upload Allure Results
+
+      - name: Upload Selenium Allure
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: selenium-allure
           path: output/allure-results
-          if-no-files-found: ignore
 
 
 
   playwright-tests:
     if: ${{ github.event.inputs.run_deploy == 'true' }}
     continue-on-error: true
-    name: Playwright Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: 3.14.2
+          python-version: 3.11
 
-      - name: Install Playwright Dependencies
+      - name: Install deps
         run: |
           pip install robotframework
           pip install robotframework-browser
           pip install allure-robotframework
-          pip install pyyaml
 
-      - name: Install Playwright Browsers
-        run: |
-          rfbrowser init
+      - name: Init browser
+        run: rfbrowser init
 
-      - name: Create dev environment file
+      - name: Run Playwright (Robot)
         run: |
-          mkdir -p variables
-          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
-          echo "BROWSER_FOR_PLAYWRIGHT: ${{ secrets.BROWSER_FOR_PLAYWRIGHT }}" >> variables/env_dev.yaml
-          echo "HEADLESS: ${{ secrets.HEADLESS }}" >> variables/env_dev.yaml
-          echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
-          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
-          echo "INVALID_EMAIL_V3: ${{ secrets.INVALID_EMAIL_V3 }}" >> variables/env_dev.yaml
-          echo "REGISTER_PASSWORD: ${{ secrets.REGISTER_PASSWORD }}" >> variables/env_dev.yaml
-      - name: Run Playwright Tests
-        run: |
-          robot \
-          --listener allure_robotframework \
+          robot --listener allure_robotframework \
           --outputdir output \
           tests/web/playwright
-      
-      - name: Upload Allure Results
+
+      - name: Upload Playwright Allure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: selenium-allure
+          name: playwright-allure
           path: output/allure-results
-          if-no-files-found: ignore
 
 
 
   playwright-ts-tests:
     if: ${{ github.event.inputs.run_deploy == 'true' }}
     continue-on-error: true
-    name: Playwright Tests (TypeScript)
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22.13
+          node-version: 22
 
-      - name: Install dependencies
+      - name: Install deps
         run: |
           npm install
           npm install -D allure-playwright
 
-      - name: Install dependencies
-        run: |
-          npm install
+      - name: Install browser
+        run: npx playwright install --with-deps
 
-      - name: Install Playwright Browsers
+      - name: Run tests
         run: |
-          npx playwright install --with-deps
+          npx playwright test --reporter=line,allure-playwright
 
-      - name: Create environment file
-        run: |
-          mkdir -p variables
-          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
-          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
-          echo "VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}" >> variables/env_dev.yaml
-          ls -la variables
-          cat variables/env_dev.yaml
-
-      - name: Run Playwright TypeScript Tests
-        run: |
-          npx playwright test \
-          --reporter=line,allure-playwright
-
-      - name: Upload Allure Results
+      - name: Upload TS Allure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: selenium-allure
-          path: output/allure-results
-          if-no-files-found: ignore
+          name: playwright-ts-allure
+          path: allure-results
 
-# -------------------------------
-# Merge + Generate Allure
-# -------------------------------
 
 
   generate-allure-report:
     if: always()
-
     needs:
       - selenium-tests
       - playwright-tests
@@ -197,83 +132,69 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    # -------------------------
-    # Download artifacts
-    # -------------------------
+      # Download
+      - name: Download Selenium
+        uses: actions/download-artifact@v4
+        with:
+          name: selenium-allure
+          path: allure-results/selenium
+        continue-on-error: true
 
-    - name: Download Selenium Results
-      uses: actions/download-artifact@v4
-      with:
-        name: selenium-allure
-        path: allure-results/selenium
-      continue-on-error: true
+      - name: Download Playwright
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-allure
+          path: allure-results/playwright
+        continue-on-error: true
 
-    - name: Download Playwright Results
-      uses: actions/download-artifact@v4
-      with:
-        name: playwright-allure
-        path: allure-results/playwright
-      continue-on-error: true
+      - name: Download TS
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-ts-allure
+          path: allure-results/ts
+        continue-on-error: true
 
-    - name: Download Playwright TS Results
-      uses: actions/download-artifact@v4
-      with:
-        name: playwright-ts-allure
-        path: allure-results/playwright-ts
-      continue-on-error: true
+      # DEBUG (QUAN TRỌNG)
+      - name: Debug files
+        run: |
+          echo "=== ALLURE RESULTS ==="
+          ls -R allure-results || true
 
-    # -------------------------
-    # Merge results
-    # -------------------------
+      # Merge
+      - name: Merge
+        run: |
+          mkdir -p merged-results
+          cp -r allure-results/*/* merged-results/ || true
 
-    - name: Merge Results
-      run: |
-        mkdir -p merged-results
-        cp -r allure-results/*/* merged-results/ || true
+      # Generate report
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-    # -------------------------
-    # Generate Allure report
-    # -------------------------
+      - run: npm install -g allure-commandline
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
+      - name: Generate report
+        run: |
+          allure generate merged-results -o allure-report --clean
 
-    - name: Install Allure CLI
-      run: |
-        npm install -g allure-commandline
+      # Deploy (DÙNG GITHUB_TOKEN)
+      - name: Deploy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
 
-    - name: Generate Report
-      run: |
-        allure generate merged-results -o allure-report --clean
+          git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages
+          cd gh-pages
 
-    # -------------------------
-    # Deploy to GitHub Pages
-    # -------------------------
+          git checkout gh-pages || git checkout -b gh-pages
 
-    - name: Deploy to GitHub Pages
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        git config --global user.name "automation-bot"
-        git config --global user.email "automation@bot.com"
+          rm -rf *
+          cp -r ../allure-report/* .
 
-        git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages
-
-        cd gh-pages
-
-        git checkout gh-pages || git checkout -b gh-pages
-
-        rm -rf *
-
-        cp -r ../allure-report/* .
-
-        git add .
-
-        git commit -m "Update Allure report" || echo "No changes"
-
-        git push origin gh-pages
+          git add .
+          git commit -m "Update report" || echo "No changes"
+          git push origin gh-pages
