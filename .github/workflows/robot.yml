@@ -185,21 +185,20 @@ jobs:
 # Merge + Generate Allure
 # -------------------------------
 
+
   generate-allure-report:
-  if: always()
+    if: always()
 
-  needs:
-    - selenium-tests
-    - playwright-tests
-    - playwright-ts-tests
+    needs:
+      - selenium-tests
+      - playwright-tests
+      - playwright-ts-tests
 
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  steps:
-
+    steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
 
     # -------------------------
     # Download artifacts
@@ -212,7 +211,6 @@ jobs:
         path: allure-results/selenium
       continue-on-error: true
 
-
     - name: Download Playwright Results
       uses: actions/download-artifact@v4
       with:
@@ -220,14 +218,12 @@ jobs:
         path: allure-results/playwright
       continue-on-error: true
 
-
     - name: Download Playwright TS Results
       uses: actions/download-artifact@v4
       with:
         name: playwright-ts-allure
         path: allure-results/playwright-ts
       continue-on-error: true
-
 
     # -------------------------
     # Merge results
@@ -238,7 +234,6 @@ jobs:
         mkdir -p merged-results
         cp -r allure-results/*/* merged-results/ || true
 
-
     # -------------------------
     # Generate Allure report
     # -------------------------
@@ -248,16 +243,13 @@ jobs:
       with:
         node-version: 22
 
-
     - name: Install Allure CLI
       run: |
         npm install -g allure-commandline
 
-
     - name: Generate Report
       run: |
         allure generate merged-results -o allure-report --clean
-
 
     # -------------------------
     # Deploy to GitHub Pages
