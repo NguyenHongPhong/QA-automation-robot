@@ -186,85 +186,102 @@ jobs:
 # -------------------------------
 
   generate-allure-report:
-    if: always()
-    uses: actions/upload-artifact@v4
-    with:
-      name: selenium-allure
-      path: output/allure-results
-      if-no-files-found: ignore
-    needs:
-      - selenium-tests
-      - playwright-tests
-      - playwright-ts-tests
+  if: always()
 
-    runs-on: ubuntu-latest
+  needs:
+    - selenium-tests
+    - playwright-tests
+    - playwright-ts-tests
 
-    steps:
-    
-      - name: Download Selenium Results
-        uses: actions/download-artifact@v4
-        with:
-          name: selenium-allure
-          path: allure-results/selenium
-        continue-on-error: true
+  runs-on: ubuntu-latest
+
+  steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
 
 
-      - name: Download Playwright Results
-        uses: actions/download-artifact@v4
-        with:
-          name: selenium-allure
-          path: allure-results/selenium
-        continue-on-error: true
+    # -------------------------
+    # Download artifacts
+    # -------------------------
+
+    - name: Download Selenium Results
+      uses: actions/download-artifact@v4
+      with:
+        name: selenium-allure
+        path: allure-results/selenium
+      continue-on-error: true
 
 
-      - name: Download Playwright TS Results
-        uses: actions/download-artifact@v4
-        with:
-          name: selenium-allure
-          path: allure-results/selenium
-        continue-on-error: true
+    - name: Download Playwright Results
+      uses: actions/download-artifact@v4
+      with:
+        name: playwright-allure
+        path: allure-results/playwright
+      continue-on-error: true
 
 
-      - name: Merge Results
-        run: |
-          mkdir -p merged-results
-          cp -r allure-results/*/* merged-results/ || true
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install Allure CLI
-        run: |
-          npm install -g allure-commandline --save-dev
+    - name: Download Playwright TS Results
+      uses: actions/download-artifact@v4
+      with:
+        name: playwright-ts-allure
+        path: allure-results/playwright-ts
+      continue-on-error: true
 
 
-      - name: Generate Report
-        run: |
-          allure generate merged-results -o allure-report --clean
+    # -------------------------
+    # Merge results
+    # -------------------------
+
+    - name: Merge Results
+      run: |
+        mkdir -p merged-results
+        cp -r allure-results/*/* merged-results/ || true
 
 
-      - name: Deploy to GitHub Pages
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
+    # -------------------------
+    # Generate Allure report
+    # -------------------------
 
-          git config --global user.name "automation-bot"
-          git config --global user.email "automation@bot.com"
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
 
-          git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages
 
-          cd gh-pages
+    - name: Install Allure CLI
+      run: |
+        npm install -g allure-commandline
 
-          git checkout gh-pages || git checkout -b gh-pages
 
-          rm -rf *
+    - name: Generate Report
+      run: |
+        allure generate merged-results -o allure-report --clean
 
-          cp -r ../allure-report/* .
 
-          git add .
+    # -------------------------
+    # Deploy to GitHub Pages
+    # -------------------------
 
-          git commit -m "Update Allure report" || echo "No changes"
+    - name: Deploy to GitHub Pages
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        git config --global user.name "automation-bot"
+        git config --global user.email "automation@bot.com"
 
-          git push origin gh-pages
+        git clone https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} gh-pages
+
+        cd gh-pages
+
+        git checkout gh-pages || git checkout -b gh-pages
+
+        rm -rf *
+
+        cp -r ../allure-report/* .
+
+        git add .
+
+        git commit -m "Update Allure report" || echo "No changes"
+
+        git push origin gh-pages
