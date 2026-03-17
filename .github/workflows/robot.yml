@@ -69,10 +69,12 @@ jobs:
           tests/web/selenium
       
       - name: Upload Allure Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: selenium-allure
           path: output/allure-results
+          if-no-files-found: ignore
 
 
 
@@ -120,10 +122,12 @@ jobs:
           tests/web/playwright
       
       - name: Upload Allure Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-allure
+          name: selenium-allure
           path: output/allure-results
+          if-no-files-found: ignore
 
 
 
@@ -170,10 +174,12 @@ jobs:
           --reporter=line,allure-playwright
 
       - name: Upload Allure Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-ts-allure
-          path: allure-results
+          name: selenium-allure
+          path: output/allure-results
+          if-no-files-found: ignore
 
 # -------------------------------
 # Merge + Generate Allure
@@ -181,6 +187,11 @@ jobs:
 
   generate-allure-report:
     if: always()
+    uses: actions/upload-artifact@v4
+    with:
+      name: selenium-allure
+      path: output/allure-results
+      if-no-files-found: ignore
     needs:
       - selenium-tests
       - playwright-tests
@@ -198,20 +209,23 @@ jobs:
         with:
           name: selenium-allure
           path: allure-results/selenium
+        continue-on-error: true
 
 
       - name: Download Playwright Results
         uses: actions/download-artifact@v4
         with:
-          name: playwright-allure
-          path: allure-results/playwright
+          name: selenium-allure
+          path: allure-results/selenium
+        continue-on-error: true
 
 
       - name: Download Playwright TS Results
         uses: actions/download-artifact@v4
         with:
-          name: playwright-ts-allure
-          path: allure-results/playwright-ts
+          name: selenium-allure
+          path: allure-results/selenium
+        continue-on-error: true
 
 
       - name: Merge Results
