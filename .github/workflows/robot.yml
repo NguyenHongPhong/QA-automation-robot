@@ -37,6 +37,20 @@ jobs:
           pip install robotframework-seleniumlibrary
           pip install allure-robotframework
           pip install pyyaml
+      
+      - name: Create dev environment file
+        run: |
+          mkdir -p variables
+          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
+          echo "BROWSER: ${{ secrets.BROWSER }}" >> variables/env_dev.yaml
+          echo "REGISTER_SUCCESS_REDIRECT_LINK: ${{ secrets.REGISTER_SUCCESS_REDIRECT_LINK }}" >> variables/env_dev.yaml
+          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
+          echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL: ${{ secrets.INVALID_EMAIL }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_ERROR_MESSAGE }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_V2: ${{ secrets.INVALID_EMAIL_V2 }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_V2_ERROR_MESSAGE: ${{ secrets.INVALID_EMAIL_V2_ERROR_MESSAGE }}" >> variables/env_dev.yaml
+          echo "REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}" >> variables/env_dev.yaml
 
       - name: Run Selenium
         run: |
@@ -74,6 +88,17 @@ jobs:
       - name: Init browser
         run: rfbrowser init
 
+      - name: Create dev environment file
+        run: |
+          mkdir -p variables
+          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
+          echo "BROWSER_FOR_PLAYWRIGHT: ${{ secrets.BROWSER_FOR_PLAYWRIGHT }}" >> variables/env_dev.yaml
+          echo "HEADLESS: ${{ secrets.HEADLESS }}" >> variables/env_dev.yaml
+          echo "VALID_USERNAME: ${{ secrets.VALID_USERNAME }}" >> variables/env_dev.yaml
+          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
+          echo "INVALID_EMAIL_V3: ${{ secrets.INVALID_EMAIL_V3 }}" >> variables/env_dev.yaml
+          echo "REGISTER_PASSWORD: ${{ secrets.REGISTER_PASSWORD }}" >> variables/env_dev.yaml
+
       - name: Run Playwright (Robot)
         run: |
           robot --listener allure_robotframework \
@@ -108,6 +133,13 @@ jobs:
 
       - name: Install browser
         run: npx playwright install --with-deps
+
+      - name: Create environment file
+        run: |
+          mkdir -p variables
+          echo "WEBSITE_URL: ${{ secrets.WEBSITE_URL }}" > variables/env_dev.yaml
+          echo "VALID_EMAIL: ${{ secrets.VALID_EMAIL }}" >> variables/env_dev.yaml
+          echo "VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}" >> variables/env_dev.yaml
 
       - name: Run tests
         run: |
