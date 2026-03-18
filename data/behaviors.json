@@ -1,1 +1,1 @@
-{"uid":"b1a8273437954620fa374b796ffaacdd","name":"behaviors","children":[{"name":"Add To Cart With 3 Products In Women Category Should Has Three Products In Cart","uid":"e556e740fe25a991","parentUid":"b1a8273437954620fa374b796ffaacdd","status":"broken","time":{"start":1773843430089,"stop":1773843460251,"duration":30162},"flaky":false,"newFailed":false,"newPassed":false,"newBroken":false,"retriesCount":2,"retriesStatusChange":false,"parameters":[],"tags":[]}]}
+{"uid":"b1a8273437954620fa374b796ffaacdd","name":"behaviors","children":[]}

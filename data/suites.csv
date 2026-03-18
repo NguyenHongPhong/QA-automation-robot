@@ -1,2 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","30162","Add To Cart With 3 Products In Women Category Should Has Three Products In Cart","","2026-03-18","broken","2026-03-18","","playwright/tests/addtocart.spec.ts","",""
