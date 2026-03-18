@@ -54,17 +54,25 @@ jobs:
 
       - name: Run Selenium
         run: |
-          robot --listener allure_robotframework \
+          robot \
+          --listener allure_robotframework:output/allure-results/selenium \
           --outputdir output \
           tests/web/selenium
+
+      - name: Debug output
+        run: |
+          echo "=== OUTPUT FOLDER ==="
+          ls -R output || true
+
+          echo "=== ROOT FOLDER ==="
+          ls -R . || true
 
       - name: Upload Selenium Allure
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: selenium-allure
-          path: output/allure-results
-
+          path: output/allure-results/selenium
 
 
   playwright-tests:
@@ -101,17 +109,25 @@ jobs:
 
       - name: Run Playwright (Robot)
         run: |
-          robot --listener allure_robotframework \
+          robot \
+          --listener allure_robotframework:output/allure-results/playwright \
           --outputdir output \
           tests/web/playwright
 
+      - name: Debug output
+        run: |
+          echo "=== OUTPUT FOLDER ==="
+          ls -R output || true
+
+          echo "=== ROOT FOLDER ==="
+          ls -R . || true
+          
       - name: Upload Playwright Allure
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-allure
-          path: output/allure-results
-
+          path: output/allure-results/playwright
 
 
   playwright-ts-tests:
@@ -198,7 +214,9 @@ jobs:
       - name: Merge
         run: |
           mkdir -p merged-results
-          cp -r allure-results/*/* merged-results/ || true
+          cp -r allure-results/selenium/* merged-results/ 2>/dev/null || true
+          cp -r allure-results/playwright/* merged-results/ 2>/dev/null || true
+          cp -r allure-results/ts/* merged-results/ 2>/dev/null || true
 
       # Generate report
       - uses: actions/setup-node@v4
