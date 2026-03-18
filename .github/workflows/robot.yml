@@ -214,9 +214,18 @@ jobs:
       - name: Merge
         run: |
           mkdir -p merged-results
-          find allure-results/selenium -type f -exec cp {} merged-results/selenium-$(basename {}) \;
-          find allure-results/playwright -type f -exec cp {} merged-results/playwright-$(basename {}) \;
-          find allure-results/ts -type f -exec cp {} merged-results/ts-$(basename {}) \;
+          
+          if [ -d "allure-results/selenium" ]; then
+            find allure-results/selenium -type f -exec sh -c 'cp "$1" merged-results/selenium-$(basename "$1")' _ {} \;
+          fi
+
+          if [ -d "allure-results/playwright" ]; then
+            find allure-results/playwright -type f -exec sh -c 'cp "$1" merged-results/playwright-$(basename "$1")' _ {} \;
+          fi
+
+          if [ -d "allure-results/ts" ]; then
+            find allure-results/ts -type f -exec sh -c 'cp "$1" merged-results/ts-$(basename "$1")' _ {} \;
+          fi
 
       # Generate report
       - uses: actions/setup-node@v4
@@ -230,7 +239,7 @@ jobs:
           echo "=== MERGED ==="
           ls merged-results | wc -l
           ls merged-results | head -20
-          
+
       - name: Generate report
         run: |
           allure generate merged-results -o allure-report --clean
