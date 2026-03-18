@@ -1,7 +1,15 @@
 import { defineConfig } from "playwright/test";
 import { WEBSITE_URL } from "./playwright/utils/evnVariables.js";
 
+
 export default defineConfig({
+    retries: 2,
+
+    reporter: [
+        ['line'],
+        ['allure-playwright']
+    ],
+
     use: {
         baseURL: WEBSITE_URL,
         headless: !!process.env.CI,
@@ -14,6 +22,4 @@ export default defineConfig({
         },
         trace: 'on-first-retry',
     },
-},
-    { retries: 2 }
-);
+});
